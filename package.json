@@ -1,6 +1,6 @@
 {
   "name": "hypertitle",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Adds CWD to HyperTerm tab titles.",
   "license": "MIT",
   "repository": "patrikholcak/hypertitle",
