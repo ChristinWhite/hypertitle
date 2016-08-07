@@ -1,7 +1,23 @@
 const { exec } = require('child_process');
 let sessions = {};
 
-const setTitle = (pid, uid, sessionTitle) =>
+const debounce = (func, wait, immediate) => {
+	var timeout;
+	return function() {
+		var context = this, args = arguments;
+		var later = function() {
+			timeout = null;
+			if (!immediate) func.apply(context, args);
+		};
+		var callNow = immediate && !timeout;
+		clearTimeout(timeout);
+		timeout = setTimeout(later, wait);
+		if (callNow) func.apply(context, args);
+	};
+};
+
+const setTitle = (pid, uid, sessionTitle) => {
+  console.log('call')
   exec(`lsof -p ${pid} | grep cwd | tr -s ' ' | cut -d ' ' -f9-`, (err, cwd) => {
     if (err) {
       console.error(err);
@@ -21,6 +37,9 @@ const setTitle = (pid, uid, sessionTitle) =>
       });
     }
   });
+};
+
+const debouncedTitle = debounce(setTitle, 250)
 
 exports.middleware = (store) => (next) => (action) => {
   switch (action.type) {
@@ -37,13 +56,13 @@ exports.middleware = (store) => (next) => (action) => {
       break;
     case 'SESSION_PTY_DATA': {
       let session = sessions[action.uid];
-      setTitle(session.pid, action.uid, session.title);
+      debouncedTitle(session.pid, action.uid, session.title);
       break;
     } case 'SESSION_SET_PROCESS_TITLE': {
       let session = sessions[action.uid];
       sessions[action.uid].title = action.title;
 
-      setTitle(session.pid, action.uid, action.title);
+      debouncedTitle(session.pid, action.uid, action.title);
 
       break;
     }
