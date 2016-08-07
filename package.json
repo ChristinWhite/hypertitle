@@ -2,12 +2,13 @@
   "name": "hypertitle",
   "version": "1.0.0",
   "description": "Adds CWD to HyperTerm tab titles.",
+  "license": "MIT",
+  "repository": "patrikholcak/hypertitle",
+  "author": "Patrik Holcak <patrik@holcak.com>",
   "main": "index.js",
   "keywords": [
     "hyperterm",
     "cwd",
     "title"
-  ],
-  "author": "Patrik Holcak <patrik@holcak.com>",
-  "license": "MIT"
+  ]
 }
