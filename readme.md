@@ -1,3 +1,5 @@
+# Deprecated Project
+
 # HyperTitle
 Adds CWD to [HyperTerm](https://hyperterm.org) tab titles.
 
